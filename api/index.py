@@ -6,9 +6,13 @@ from http.server import BaseHTTPRequestHandler
 class handler(BaseHTTPRequestHandler):
  
     def do_GET(self):
-        query_params = dict(parse.urlencode(self.headers.get("query_params")))
-        country = query_params.get("country")
-        capital = query_params.get("capital")
+
+        url_components = parse.urlsplit(self.path)
+        query_strings_list = parse.parse_qsl(url_components.query)
+        dic = dict(query_strings_list)
+
+        country = dic.get("country")
+        capital = dic.get("capital")
         response_text = ""
 
         if country:
